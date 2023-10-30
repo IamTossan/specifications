@@ -2,10 +2,11 @@
 EXTENDS TLC, FiniteSets, Integers
 
 CONSTANTS PLAYERS, LOBBY_SIZE
+ASSUME Cardinality(PLAYERS) >= LOBBY_SIZE
 
 VARIABLES lobby
 
-TypeOK == Cardinality(PLAYERS) >= LOBBY_SIZE
+TypeOK == lobby \subseteq PLAYERS
 
 isLobbyFull == Cardinality(lobby) = LOBBY_SIZE
 
@@ -27,7 +28,7 @@ Next == \/ canEnterGame
 
 Spec == Init /\ [][Next]_lobby
 
-ModelInvariant == lobby \subseteq PLAYERS
+ModelInvariant == isLobbyFull
 
 THEOREM Spec => [](TypeOK) /\ <>[](ModelInvariant)
 ====
